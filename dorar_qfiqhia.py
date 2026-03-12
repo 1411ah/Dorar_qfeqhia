@@ -205,7 +205,9 @@ def prepare_content(cd):
         span.replace_with(f"«{span.get_text(strip=True)}»")
     for a in cd.find_all("a"):
         if re.search(r"السابق|التالي|انظر أيضا|الرابط المختصر|مشاركة", a.get_text(strip=True)):
-            a.decompose()
+            a.decompose()   # رابط تنقل أو زائد → احذفه بالكامل
+        else:
+            a.unwrap()      # رابط يحمل نصاً مفيداً → احتفظ بالنص فقط
     return tips_map
 
 def extract_content_epub(html, page_id):
